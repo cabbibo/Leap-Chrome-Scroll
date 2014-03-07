@@ -26,3 +26,6 @@ The parameters ( currently ) are as follows:
 - Pinch Movement Ratio: this is the amount you will move the page up and down when you are pinching
 
 - Dampening: This is how much the speed will be multiplied every frame to gradually slow it down
+
+
+Important Settings: To Just use Swipe, set Pinch Cutoff to 1, to just use pinch, set Match Cutoff to 1
