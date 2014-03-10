@@ -177,6 +177,11 @@
       var handDirection = new THREE.Vector3();
       handDirection.fromArray( hand.direction );
 
+      var handNormal = new THREE.Vector3();
+
+      handNormal.fromArray( hand.palmNormal );
+
+      var handMatch =  Math.abs( handNormal.y );
       for( var i = 0; i < hand.fingers.length; i++ ){
 
         var finger = hand.fingers[i];
@@ -193,14 +198,20 @@
           fingerVelocity.fromArray( fV );
 
           var match = fingerDirection.dot( handDirection );
+          var handMatch = fingerVelocity.clone().normalize().dot( handNormal );
 
           // Cuts off our matching if the direction isn't in alignment
           if( match > params.matchCutoff ){
             
-            var matchPower = Math.pow( match , params.matchPower );
-            var force = fingerVelocity.y * matchPower;
+            var matchPower      = Math.pow( match , params.matchPower );
+            var handMatchPower  = Math.pow( Math.abs(handMatch) , params.matchPower );
+            var force           = fingerVelocity.y;
 
-            totalForce += force * params.forceRatio;
+            force       *= matchPower;
+            force       *= handMatchPower;
+
+            totalForce  += force * params.forceRatio;
+
 
           }
 
